@@ -1,0 +1,32 @@
+apiVersion: apps/v1 
+kind: Deployment
+metadata:
+  name: dh-alpine-deploy
+  labels:
+    app: dh-alpine-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: dh-alpine-app
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: dh-alpine-app
+    spec:
+      containers:
+      - image: dustinhennis/dh-alpine:latest
+        name: dh-alpine
+        # command:
+        #   - /usr/bin/top
+        imagePullPolicy: IfNotPresent
+        resources:
+          limits:
+            cpu: 300m
+            memory: 512Mi
+          requests:
+            cpu: 200m
+            memory: 256Mi      
+      restartPolicy: Always
